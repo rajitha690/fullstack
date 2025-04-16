@@ -5,13 +5,13 @@ pipeline {
         stage('Clone Repositories') {
             steps {
                 dir('frontendreactjs') {
-                    git 'https://github.com/dimpleswapna/frontendreactjs.git'
+                    git branch: 'main', url: 'https://github.com/dimpleswapna/frontendreactjs.git'
                 }
                 dir('backendnodejs') {
-                    git 'https://github.com/dimpleswapna/backendnodejs.git'
+                    git branch: 'main', url: 'https://github.com/dimpleswapna/backendnodejs.git'
                 }
                 dir('DBmongodb') {
-                    git 'https://github.com/dimpleswapna/DBmongodb.git'
+                    git branch: 'main', url: 'https://github.com/dimpleswapna/DBmongodb.git'
                 }
             }
         }

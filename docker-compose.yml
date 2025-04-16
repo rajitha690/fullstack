@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mongo:
-    image: mongo:latest  # ✅ Use official image instead of build
+    image: mongo:latest  # ✅ Official MongoDB image
     ports:
       - "27017:27017"
     volumes:
@@ -11,14 +11,16 @@ services:
   backend:
     build: ./backendnodejs
     ports:
-      - "5000:5000"
+      - "3100:3100"  
     depends_on:
       - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/todoapp  # ✅ Pass MongoDB URI
 
   frontend:
     build: ./frontendreactjs
     ports:
-      - "3000:80"  # ✅ Port 80 inside container because of Nginx in Dockerfile
+      - "3000:80"  # ✅ Port 80 inside container because of Nginx
     depends_on:
       - backend
     environment:

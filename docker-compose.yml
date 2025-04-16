@@ -2,34 +2,29 @@ version: '3.8'
 
 services:
   mongo:
-    image: mongo:latest  # Official MongoDB image
+    image: mongo:latest  # Use official MongoDB image
     ports:
-      - "27017:27017"
+      - "27017:27017"  # Expose MongoDB on port 27017
     volumes:
-      - mongo-data:/data/db
+      - mongo-data:/data/db  # Use a volume to persist data
 
   backend:
-    build: ./backendnodejs
+    build: ./backendnodejs  # Build the backend from the ./backendnodejs directory
     ports:
-      - "3100:3100"  # Backend listening on port 3100
+      - "3100:3100"  # Expose the backend on port 3100
     depends_on:
-      - mongo
+      - mongo  # Ensure that MongoDB is up before starting the backend
     environment:
-      - MONGO_URI=mongodb://mongo:27017/todoapp  # MongoDB URI passed as environment variable
-      - DB_CONN_STR=mongodb://mongo:27017/todoapp  # DB connection string for mongoose connection
-      - USE_DB_AUTH=false  # If using authentication, set this to true
-      # If using authentication, also set these:
-      # - DB_USERNAME=myUsername
-      # - DB_PASSWORD=myPassword
+      - MONGO_URI=mongodb://mongo:27017/todoapp  # Pass the MongoDB URI to the backend
 
   frontend:
-    build: ./frontendreactjs
+    build: ./frontendreactjs  # Build the frontend from the ./frontendreactjs directory
     ports:
-      - "3000:80"  # Frontend uses Nginx, mapping port 80 inside container to 3000
+      - "3000:80"  # Expose port 80 inside the container to port 3000 on the host
     depends_on:
-      - backend
+      - backend  # Ensure the backend is up before starting the frontend
     environment:
-      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_USEPOLLING=true  # Required for React hot-reloading
 
 volumes:
-  mongo-data:  # MongoDB data volume to persist data
+  mongo-data:  # MongoDB data volume

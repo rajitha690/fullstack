@@ -16,6 +16,8 @@ services:
       - mongo  # Ensure MongoDB is ready before starting backend
     environment:
       - MONGO_URI=mongodb://mongo:27017/todoapp  # Set MongoDB URI for backend service
+    networks:
+      - backend-network
 
   frontend:
     build: ./frontendreactjs  # Build frontend from the given directory
@@ -25,6 +27,12 @@ services:
       - backend  # Ensure backend is ready before starting frontend
     environment:
       - CHOKIDAR_USEPOLLING=true  # Necessary for proper file watching in development
+    networks:
+      - frontend-network
 
 volumes:
   mongo-data:  # MongoDB data volume for persistence
+
+networks:
+  backend-network:
+  frontend-network:

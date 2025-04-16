@@ -1,7 +1,8 @@
 version: '3.8'
+
 services:
   mongo:
-    build: ./DBmongodb
+    image: mongo:latest  # ✅ Use official image instead of build
     ports:
       - "27017:27017"
     volumes:
@@ -17,7 +18,7 @@ services:
   frontend:
     build: ./frontendreactjs
     ports:
-      - "3000:3000"
+      - "3000:80"  # ✅ Port 80 inside container because of Nginx in Dockerfile
     depends_on:
       - backend
     environment:

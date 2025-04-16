@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mongo:
-    image: mongo:latest  # ✅ Official MongoDB image
+    image: mongo:latest  # Official MongoDB image
     ports:
       - "27017:27017"
     volumes:
@@ -11,20 +11,25 @@ services:
   backend:
     build: ./backendnodejs
     ports:
-      - "3100:3100"  # ✅ Backend listening on port 3100
+      - "3100:3100"  # Backend listening on port 3100
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/todoapp  # ✅ MongoDB URI passed as environment variable
+      - MONGO_URI=mongodb://mongo:27017/todoapp  # MongoDB URI passed as environment variable
+      - DB_CONN_STR=mongodb://mongo:27017/todoapp  # DB connection string for mongoose connection
+      - USE_DB_AUTH=false  # If using authentication, set this to true
+      # If using authentication, also set these:
+      # - DB_USERNAME=myUsername
+      # - DB_PASSWORD=myPassword
 
   frontend:
     build: ./frontendreactjs
     ports:
-      - "3000:80"  # ✅ Frontend uses Nginx, so mapping port 80 inside container to 3000
+      - "3000:80"  # Frontend uses Nginx, mapping port 80 inside container to 3000
     depends_on:
       - backend
     environment:
       - CHOKIDAR_USEPOLLING=true
 
 volumes:
-  mongo-data:  # ✅ Mongo data volume
+  mongo-data:  # MongoDB data volume to persist data

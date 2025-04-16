@@ -2,29 +2,29 @@ version: '3.8'
 
 services:
   mongo:
-    image: mongo:latest  # Use official MongoDB image
+    image: mongo:latest  # Official MongoDB image
     ports:
-      - "27017:27017"  # Expose MongoDB on port 27017
+      - "27017:27017"  # Expose MongoDB port
     volumes:
-      - mongo-data:/data/db  # Use a volume to persist data
+      - mongo-data:/data/db  # Data persistence
 
   backend:
-    build: ./backendnodejs  # Build the backend from the ./backendnodejs directory
+    build: ./backendnodejs  # Build backend from the given directory
     ports:
-      - "3100:3100"  # Expose the backend on port 3100
+      - "3100:3100"  # Expose port 3100 for backend
     depends_on:
-      - mongo  # Ensure that MongoDB is up before starting the backend
+      - mongo  # Ensure MongoDB is ready before starting backend
     environment:
-      - MONGO_URI=mongodb://mongo:27017/todoapp  # Pass the MongoDB URI to the backend
+      - MONGO_URI=mongodb://mongo:27017/todoapp  # Set MongoDB URI for backend service
 
   frontend:
-    build: ./frontendreactjs  # Build the frontend from the ./frontendreactjs directory
+    build: ./frontendreactjs  # Build frontend from the given directory
     ports:
-      - "3000:80"  # Expose port 80 inside the container to port 3000 on the host
+      - "3000:80"  # Expose port 3000 for frontend (Nginx listens on port 80 inside container)
     depends_on:
-      - backend  # Ensure the backend is up before starting the frontend
+      - backend  # Ensure backend is ready before starting frontend
     environment:
-      - CHOKIDAR_USEPOLLING=true  # Required for React hot-reloading
+      - CHOKIDAR_USEPOLLING=true  # Necessary for proper file watching in development
 
 volumes:
-  mongo-data:  # MongoDB data volume
+  mongo-data:  # MongoDB data volume for persistence

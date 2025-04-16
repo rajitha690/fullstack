@@ -7,6 +7,8 @@ services:
       - "27017:27017"  # Expose MongoDB port
     volumes:
       - mongo-data:/data/db  # Data persistence
+    networks:
+      - backend-network  # Assign MongoDB to the backend network
 
   backend:
     build: ./backendnodejs  # Build backend from the given directory
@@ -17,7 +19,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/todoapp  # Set MongoDB URI for backend service
     networks:
-      - backend-network
+      - backend-network  # Ensure backend is on the same network as MongoDB
 
   frontend:
     build: ./frontendreactjs  # Build frontend from the given directory
@@ -28,7 +30,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true  # Necessary for proper file watching in development
     networks:
-      - frontend-network
+      - frontend-network  # Keep frontend on a separate network
 
 volumes:
   mongo-data:  # MongoDB data volume for persistence

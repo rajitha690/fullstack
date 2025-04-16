@@ -11,20 +11,20 @@ services:
   backend:
     build: ./backendnodejs
     ports:
-      - "3100:3100"  
+      - "3100:3100"  # ✅ Backend listening on port 3100
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/todoapp  # ✅ Pass MongoDB URI
+      - MONGO_URI=mongodb://mongo:27017/todoapp  # ✅ MongoDB URI passed as environment variable
 
   frontend:
     build: ./frontendreactjs
     ports:
-      - "3000:80"  # ✅ Port 80 inside container because of Nginx
+      - "3000:80"  # ✅ Frontend uses Nginx, so mapping port 80 inside container to 3000
     depends_on:
       - backend
     environment:
       - CHOKIDAR_USEPOLLING=true
 
 volumes:
-  mongo-data:
+  mongo-data:  # ✅ Mongo data volume

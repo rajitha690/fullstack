@@ -17,7 +17,7 @@ services:
     depends_on:
       - mongo  # Ensure MongoDB is ready before starting backend
     environment:
-      - MONGO_URI=mongodb://mongo:27017/todoapp  # Set MongoDB URI for backend service
+        MONGO_URI=mongodb://mongo:27017/todoapp  # Set MongoDB URI for backend service
     networks:
       - backend-network  # Ensure backend is on the same network as MongoDB
 

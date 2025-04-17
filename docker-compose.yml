@@ -2,38 +2,38 @@ version: '3.8'
 
 services:
   mongo:
-    image: mongo:latest  # Official MongoDB image
+    image: mongo:latest
     ports:
-      - "27017:27017"  # Expose MongoDB port
+      - "27017:27017"
     volumes:
-      - mongo-data:/data/db  # Data persistence
+      - mongo-data:/data/db
     networks:
-      - backend-network  # Assign MongoDB to the backend network
+      - backend-network
 
   backend:
-    build: ./backendnodejs  # Build backend from the given directory
+    build: ./backendnodejs
     ports:
-      - "3100:3100"  # Expose port 3100 for backend
+      - "3100:3100"
     depends_on:
-      - mongo  # Ensure MongoDB is ready before starting backend
+      - mongo
     environment:
-        MONGO_URI=mongodb://mongo:27017/todoapp  # Set MongoDB URI for backend service
+      MONGO_URI: mongodb://mongo:27017/todoapp
     networks:
-      - backend-network  # Ensure backend is on the same network as MongoDB
+      - backend-network
 
   frontend:
-    build: ./frontendreactjs  # Build frontend from the given directory
+    build: ./frontendreactjs
     ports:
-      - "3000:80"  # Expose port 3000 for frontend (Nginx listens on port 80 inside container)
+      - "3000:80"
     depends_on:
-      - backend  # Ensure backend is ready before starting frontend
+      - backend
     environment:
-      - CHOKIDAR_USEPOLLING=true  # Necessary for proper file watching in development
+      CHOKIDAR_USEPOLLING: "true"
     networks:
-      - frontend-network  # Keep frontend on a separate network
+      - frontend-network
 
 volumes:
-  mongo-data:  # MongoDB data volume for persistence
+  mongo-data:
 
 networks:
   backend-network:

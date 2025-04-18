@@ -4,7 +4,7 @@ import {
   getTasks,
   updateTask,
   deleteTask,
-} from "../services/taskServices";
+} from "./services/taskServices";
 
 class Courses extends Component {
   state = { tasks: [], currentTask: "" };

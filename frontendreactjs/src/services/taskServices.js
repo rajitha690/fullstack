@@ -17,7 +17,7 @@ export function getTasks() {
   return api.get("/courses")
     .then(response => response.data)
     .catch(error => {
-      console.error("Error fetching tasks:", error);
+      console.error("Error fetching tasks:", error.response ? error.response.data : error.message);
       throw error;
     });
 }
@@ -27,7 +27,7 @@ export function addTask(task) {
   return api.post("/courses", task)
     .then(response => response.data)
     .catch(error => {
-      console.error("Error adding task:", error);
+      console.error("Error adding task:", error.response ? error.response.data : error.message);
       throw error;
     });
 }
@@ -37,7 +37,7 @@ export function updateTask(id, task) {
   return api.put(`/courses/${id}`, task)
     .then(response => response.data)
     .catch(error => {
-      console.error("Error updating task:", error);
+      console.error("Error updating task:", error.response ? error.response.data : error.message);
       throw error;
     });
 }
@@ -47,7 +47,7 @@ export function deleteTask(id) {
   return api.delete(`/courses/${id}`)
     .then(response => response.data)
     .catch(error => {
-      console.error("Error deleting task:", error);
+      console.error("Error deleting task:", error.response ? error.response.data : error.message);
       throw error;
     });
 }

@@ -13,21 +13,20 @@ RUN npm install
 # Copy the full application code
 COPY . .
 
+# Inject backend URL as environment variable
+ARG REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+
 # Build the React app
 RUN npm run build
-
 
 # ---------- Production Stage ----------
 FROM nginx:alpine
 
-# Copy the build output from previous stage to nginx's default html directory
+# Copy the build output to nginx's default html directory
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Optionally copy a custom nginx config file if you use one
-# Make sure nginx.conf exists in the same directory as your Dockerfile
-# COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose port 80 to the outside
+# Expose port 80
 EXPOSE 80
 
 # Start nginx

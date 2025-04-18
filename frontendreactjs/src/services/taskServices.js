@@ -1,20 +1,18 @@
 import axios from "axios";
 
-// The backend URL should already be set at build time from the environment variables
+// The backend URL is set in your .env file and already includes "/courses"
 const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
-// ✅ Debug log to verify the backend URL being used
+// ✅ Log to verify it's being read correctly
 console.log("🌐 Backend API Base URL:", apiUrl);
 
 const api = axios.create({
-  baseURL: apiUrl, // Use the base URL from the environment variable
+  baseURL: apiUrl,
 });
 
-// Define functions for API calls
-
-// Get all tasks (courses in your case)
+// Get all courses
 export function getTasks() {
-  return api.get("/courses")
+  return api.get("") // No extra /courses
     .then(response => response.data)
     .catch(error => {
       console.error("Error fetching tasks:", error.response ? error.response.data : error.message);
@@ -22,9 +20,9 @@ export function getTasks() {
     });
 }
 
-// Add a new task (course)
+// Add a new course
 export function addTask(task) {
-  return api.post("/courses", task)
+  return api.post("", task) // No extra /courses
     .then(response => response.data)
     .catch(error => {
       console.error("Error adding task:", error.response ? error.response.data : error.message);
@@ -32,9 +30,9 @@ export function addTask(task) {
     });
 }
 
-// Update an existing task (course)
+// Update a course by ID
 export function updateTask(id, task) {
-  return api.put(`/courses/${id}`, task)
+  return api.put(`/${id}`, task) // Only append the ID
     .then(response => response.data)
     .catch(error => {
       console.error("Error updating task:", error.response ? error.response.data : error.message);
@@ -42,9 +40,9 @@ export function updateTask(id, task) {
     });
 }
 
-// Delete a task (course)
+// Delete a course by ID
 export function deleteTask(id) {
-  return api.delete(`/courses/${id}`)
+  return api.delete(`/${id}`) // Only append the ID
     .then(response => response.data)
     .catch(error => {
       console.error("Error deleting task:", error.response ? error.response.data : error.message);

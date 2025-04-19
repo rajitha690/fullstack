@@ -12,7 +12,7 @@ const api = axios.create({
 
 // Get all courses
 export function getTasks() {
-  return api.get("") // No extra /courses
+  return api.get("/courses") // Add /courses to the endpoint
     .then(response => response.data)
     .catch(error => {
       console.error("Error fetching tasks:", error.response ? error.response.data : error.message);
@@ -22,7 +22,7 @@ export function getTasks() {
 
 // Add a new course
 export function addTask(task) {
-  return api.post("", task) // No extra /courses
+  return api.post("/courses", task) // Add /courses to the endpoint
     .then(response => response.data)
     .catch(error => {
       console.error("Error adding task:", error.response ? error.response.data : error.message);
@@ -32,7 +32,7 @@ export function addTask(task) {
 
 // Update a course by ID
 export function updateTask(id, task) {
-  return api.put(`/${id}`, task) // Only append the ID
+  return api.put(`/courses/${id}`, task) // Add /courses to the endpoint
     .then(response => response.data)
     .catch(error => {
       console.error("Error updating task:", error.response ? error.response.data : error.message);
@@ -42,7 +42,7 @@ export function updateTask(id, task) {
 
 // Delete a course by ID
 export function deleteTask(id) {
-  return api.delete(`/${id}`) // Only append the ID
+  return api.delete(`/courses/${id}`) // Add /courses to the endpoint
     .then(response => response.data)
     .catch(error => {
       console.error("Error deleting task:", error.response ? error.response.data : error.message);

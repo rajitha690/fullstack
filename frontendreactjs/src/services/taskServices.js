@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 // The backend URL is set in your .env file and already includes "/courses"
@@ -12,7 +13,7 @@ const api = axios.create({
 
 // Get all courses
 export function getTasks() {
-  return api.get("/courses") // Add /courses to the endpoint
+  return api.get("/courses")
     .then(response => response.data)
     .catch(error => {
       console.error("Error fetching tasks:", error.response ? error.response.data : error.message);
@@ -22,7 +23,7 @@ export function getTasks() {
 
 // Add a new course
 export function addTask(task) {
-  return api.post("/", task) // Add /courses to the endpoint
+  return api.post("/courses", task)  // Make sure the endpoint is correct
     .then(response => response.data)
     .catch(error => {
       console.error("Error adding task:", error.response ? error.response.data : error.message);
@@ -32,7 +33,7 @@ export function addTask(task) {
 
 // Update a course by ID
 export function updateTask(id, task) {
-  return api.put(`/courses/${id}`, task) // Add /courses to the endpoint
+  return api.put(`/courses/${id}`, task)
     .then(response => response.data)
     .catch(error => {
       console.error("Error updating task:", error.response ? error.response.data : error.message);
@@ -42,7 +43,7 @@ export function updateTask(id, task) {
 
 // Delete a course by ID
 export function deleteTask(id) {
-  return api.delete(`/courses/${id}`) // Add /courses to the endpoint
+  return api.delete(`/courses/${id}`)
     .then(response => response.data)
     .catch(error => {
       console.error("Error deleting task:", error.response ? error.response.data : error.message);

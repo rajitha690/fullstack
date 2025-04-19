@@ -33,7 +33,7 @@ class App extends React.Component {
     if (!currentTask.trim()) return;
 
     try {
-      const newTask = await addTask({ task: currentTask });
+      const newTask = await addTask({ task: currentTask, completed: false });
       this.setState((prevState) => ({
         tasks: [...prevState.tasks, newTask],
         currentTask: "",
@@ -45,9 +45,11 @@ class App extends React.Component {
 
   handleUpdate = async (taskId) => {
     try {
-      await updateTask(taskId);
+      const taskToUpdate = this.state.tasks.find(task => task._id === taskId);
+      const updatedData = { ...taskToUpdate, completed: !taskToUpdate.completed };
+      await updateTask(taskId, updatedData);
       const updatedTasks = this.state.tasks.map((task) =>
-        task._id === taskId ? { ...task, completed: !task.completed } : task
+        task._id === taskId ? updatedData : task
       );
       this.setState({ tasks: updatedTasks });
     } catch (error) {

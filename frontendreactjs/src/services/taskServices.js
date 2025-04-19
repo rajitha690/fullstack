@@ -1,52 +1,55 @@
-
 import axios from "axios";
 
-// The backend URL is set in your .env file and already includes "/courses"
+// Check and set backend URL
 const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
-// ✅ Log to verify it's being read correctly
-console.log("🌐 Backend API Base URL:", apiUrl);
+if (!apiUrl) {
+  console.warn("⚠️ REACT_APP_BACKEND_URL is not set. API calls may fail.");
+} else {
+  console.log("🌐 Backend API Base URL:", apiUrl);
+}
 
+// Axios instance with baseURL
 const api = axios.create({
   baseURL: apiUrl,
 });
 
-// Get all courses
+// GET: Get all tasks/courses
 export function getTasks() {
   return api.get("/courses")
     .then(response => response.data)
     .catch(error => {
-      console.error("Error fetching tasks:", error.response ? error.response.data : error.message);
+      console.error("❌ Error fetching tasks:", error.response?.data || error.message);
       throw error;
     });
 }
 
-// Add a new course
+// POST: Add a new task/course
 export function addTask(task) {
-  return api.post("/courses", task)  // Make sure the endpoint is correct
+  return api.post("/courses", task)
     .then(response => response.data)
     .catch(error => {
-      console.error("Error adding task:", error.response ? error.response.data : error.message);
+      console.error("❌ Error adding task:", error.response?.data || error.message);
       throw error;
     });
 }
 
-// Update a course by ID
+// PUT: Update a task/course
 export function updateTask(id, task) {
   return api.put(`/courses/${id}`, task)
     .then(response => response.data)
     .catch(error => {
-      console.error("Error updating task:", error.response ? error.response.data : error.message);
+      console.error("❌ Error updating task:", error.response?.data || error.message);
       throw error;
     });
 }
 
-// Delete a course by ID
+// DELETE: Delete a task/course
 export function deleteTask(id) {
   return api.delete(`/courses/${id}`)
     .then(response => response.data)
     .catch(error => {
-      console.error("Error deleting task:", error.response ? error.response.data : error.message);
+      console.error("❌ Error deleting task:", error.response?.data || error.message);
       throw error;
     });
 }

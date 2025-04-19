@@ -26,7 +26,7 @@ app.get('/health', (req, res) => {
 
 app.use("/courses", courses);
 
-const port = process.env.PORT || 3100;
+const port = process.env.PORT || 5000;
 app.listen(port, '0.0.0.0', () => {
   console.log(`Our backend API is listening via port ${port}`);
 });

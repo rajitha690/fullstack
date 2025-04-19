@@ -1,26 +1,32 @@
-const courses = require("./routes/courses");
-const connection = require("./db");
-const cors = require("cors");
 const express = require("express");
+const cors = require("cors");
 const app = express();
+const connection = require("./db");
+const courses = require("./routes/courses");
 
-// Establish MongoDB connection
+// Connect to MongoDB
 connection().catch((err) => {
   console.error("Failed to connect to MongoDB:", err);
   process.exit(1);
 });
 
-// Health check route
+// Enable CORS with preflight handling
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+app.options('*', cors());
+
+app.use(express.json());
+
 app.get('/health', (req, res) => {
   res.status(200).send('Backend is healthy');
 });
 
-app.use(express.json());
-app.use(cors());
 app.use("/courses", courses);
 
 const port = process.env.PORT || 3100;
-
 app.listen(port, '0.0.0.0', () => {
   console.log(`Our backend API is listening via port ${port}`);
 });

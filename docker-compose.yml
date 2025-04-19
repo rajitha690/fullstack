@@ -16,7 +16,7 @@ services:
     build:
       context: ./backendnodejs
     ports:
-      - "3100:3100"
+      - "5000:5000"
     depends_on:
       - mongo
     environment:
@@ -30,7 +30,7 @@ services:
       context: ./frontendreactjs
       dockerfile: Dockerfile
       args:
-        REACT_APP_BACKEND_URL: http://backend:3100
+        REACT_APP_BACKEND_URL: http://backend:5000
     ports:
       - "3000:80"
     depends_on:

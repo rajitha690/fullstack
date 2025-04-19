@@ -15,6 +15,7 @@ class Courses extends Component {
       this.setState({ tasks: data });
     } catch (error) {
       console.log(error);
+      alert("Failed to load tasks. Please try again.");
     }
   }
 
@@ -31,6 +32,7 @@ class Courses extends Component {
       this.setState({ tasks, currentTask: "" });
     } catch (error) {
       console.log(error);
+      alert("Failed to add task. Please try again.");
     }
   };
 
@@ -46,6 +48,7 @@ class Courses extends Component {
     } catch (error) {
       this.setState({ tasks: originalTasks });
       console.log(error);
+      alert("Failed to update task. Please try again.");
     }
   };
 
@@ -58,6 +61,7 @@ class Courses extends Component {
     } catch (error) {
       this.setState({ tasks: originalTasks });
       console.log(error);
+      alert("Failed to delete task. Please try again.");
     }
   };
 
@@ -71,23 +75,27 @@ class Courses extends Component {
             value={this.state.currentTask}
             placeholder="Add task"
           />
-          <button type="submit">Add</button>
+          <button type="submit" disabled={!this.state.currentTask}>Add</button>
         </form>
-        <ul>
-          {this.state.tasks.map((task) => (
-            <li key={task._id}>
-              <span
-                style={{
-                  textDecoration: task.completed ? "line-through" : "none",
-                }}
-                onClick={() => this.handleUpdate(task._id)}
-              >
-                {task.task}
-              </span>
-              <button onClick={() => this.handleDelete(task._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        {this.state.tasks.length === 0 ? (
+          <p>No tasks available</p>
+        ) : (
+          <ul>
+            {this.state.tasks.map((task) => (
+              <li key={task._id}>
+                <span
+                  style={{
+                    textDecoration: task.completed ? "line-through" : "none",
+                  }}
+                  onClick={() => this.handleUpdate(task._id)}
+                >
+                  {task.task}
+                </span>
+                <button onClick={() => this.handleDelete(task._id)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     );
   }

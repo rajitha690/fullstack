@@ -40,7 +40,7 @@ services:
     networks:
       - app-network
     # Optional: Wait for the backend service to be ready before starting the frontend
-    command: /wait-for-it.sh backend:3100 -- npm start
+    command: /wait-for-it.sh backend:5000 -- npm start
 
 volumes:
   mongo-data:

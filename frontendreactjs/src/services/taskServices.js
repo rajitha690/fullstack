@@ -22,7 +22,7 @@ export function getTasks() {
 
 // Add a new course
 export function addTask(task) {
-  return api.post("/courses", task) // Add /courses to the endpoint
+  return api.post("/", task) // Add /courses to the endpoint
     .then(response => response.data)
     .catch(error => {
       console.error("Error adding task:", error.response ? error.response.data : error.message);

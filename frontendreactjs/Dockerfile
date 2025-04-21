@@ -3,27 +3,32 @@ FROM node:14 AS build
 
 WORKDIR /app
 
-# Copy dependency files first
+# Copy dependency files
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy source code
+# Copy all source files
 COPY . .
 
 # Accept the backend URL as a build-time argument
 ARG REACT_APP_BACKEND_URL
 
-# Inject REACT_APP_BACKEND_URL directly when running the build
-RUN REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL npm run build
+# Set environment variable so React can access it
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+
+# Build the React app
+RUN npm run build
 
 # ---------- Production Stage ----------
 FROM nginx:alpine
 
-# Copy built static files to nginx
+# Copy build output to NGINX public folder
 COPY --from=build /app/build /usr/share/nginx/html
 
+# Expose default port
 EXPOSE 80
 
+# Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
